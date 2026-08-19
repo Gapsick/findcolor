@@ -1,0 +1,1 @@
+"""Color Hunt backend package."""

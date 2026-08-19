@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Color Hunt {{ t('game_start') }}{% endblock %}
+{% block content %}
+<span class="round-badge">{{ t('round_label') }} {{ round }}/{{ total_rounds }}</span>
+<h1>{{ t('game_start') }}</h1><p class="sub">{{ t('remaining_time') }} <strong id="timer">{{ duration }}</strong>{{ t('seconds') }}</p>
+<section class="card">
+  <div class="target" style="background:{{ target }}"></div>
+  <p class="target-code">{{ t('target_color') }} {{ target_name }} · {{ target }}</p>
+  <form id="photo-form" enctype="multipart/form-data">
+    <label class="photo-button" for="photo">{{ t('choose_photo') }}</label>
+    <input class="hidden-input" id="photo" name="photo" type="file" accept="image/*" capture="environment" required>
+    <img class="photo-preview" id="local-preview" alt="{{ t('selected_photo') }}">
+    <p class="help">{{ t('photo_help') }}</p>
+    <button id="submit-photo" type="submit" disabled>{{ t('analyze_photo') }}</button>
+  </form>
+  <div class="analysis-wait" id="analysis-wait" hidden>
+    <div class="spinner"></div><strong>{{ t('analyzing') }}</strong>
+    <span>{{ t('please_wait') }}</span>
+  </div>
+  <p class="error" id="error"></p>
+  <div id="result" hidden>
+    <h2>{{ t('analysis_result') }}</h2>
+    <img class="photo-preview result-photo" id="result-photo" alt="{{ t('analysis_result_alt') }}">
+    <p class="clue-note" id="match-message"></p>
+    <div class="meters">
+      <div class="meter-row">
+        <div class="meter-head"><span>{{ t('color_similarity') }}</span><span id="similarity-value"></span></div>
+        <div class="meter-bar"><div class="meter-fill fill-gold" id="similarity-fill"></div></div>
+      </div>
+    </div>
+    <div class="color-compare">
+      <div><span class="mini-color" style="background:{{ target }}"></span>{{ t('target') }} {{ target }}</div>
+      <div><span class="mini-color" id="found-color"></span>{{ t('detected') }} <span id="found-code"></span></div>
+    </div>
+    <div class="score-grid">
+      <div><strong id="color-score"></strong><span>{{ t('color_similarity') }}</span></div>
+      <div><strong id="time-score"></strong><span>{{ t('time_score') }}</span></div>
+      <div><strong id="final-score"></strong><span>{{ t('final_score') }}</span></div>
+    </div>
+    <div class="waiting-notice"><strong>{{ t('submission_complete') }}</strong><span>{{ t('waiting_others') }}</span></div>
+  </div>
+</section>
+{% endblock %}
+{% block script %}<script src="{{ url_for('static', filename='js/play.js') }}"></script>{% endblock %}

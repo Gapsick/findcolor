@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Color Hunt {{ t('waiting_title') }}{% endblock %}
+{% block content %}
+<h1>{{ t('waiting_title') }}</h1><p class="sub">{{ t('waiting_subtitle') }}</p>
+<section class="card">
+  <div class="status">{{ t('waiting_game') }}</div>
+  <p class="count" id="count"></p><ul class="players" id="players"></ul>
+</section>
+{% endblock %}
+{% block script %}<script src="{{ url_for('static', filename='js/waiting.js') }}"></script>{% endblock %}

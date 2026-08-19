@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Color Hunt {{ t('host_page') }}{% endblock %}
+{% block content %}
+<div class="host-label">HOST</div>
+<h1>{{ t('host_page') }}</h1><p class="sub">{{ t('host_subtitle') }}</p>
+<section class="card">
+  <div id="waiting-view">
+    <div class="section-title">{{ t('join_qr') }}</div>
+    <img class="qr" src="{{ qr }}" alt="{{ t('join_qr_alt') }}"><div class="url">{{ join_url }}</div>
+    <div class="section-title lobby-title">{{ t('lobby_status') }}</div>
+    <p class="count" id="count"></p><ul class="players" id="players"></ul>
+    <button id="start" disabled>{{ t('start_after_join') }}</button>
+  </div>
+  <div id="playing-view" hidden>
+    <span class="round-badge" id="playing-round-badge"></span>
+    <div class="status playing-status">{{ t('game_running') }} · <span id="timer">60</span>{{ t('seconds') }}</div>
+    <div class="target top-gap" id="target"></div><p class="target-code" id="target-code"></p>
+    <div class="section-title lobby-title">{{ t('submission_status') }}</div>
+    <p class="count" id="progress-count"></p><ul class="players" id="progress-players"></ul>
+  </div>
+  <div id="result-view" hidden>
+    <span class="round-badge" id="result-round-badge"></span>
+    <h2 id="result-title"></h2>
+    <div id="round-leaderboard-section">
+      <ol class="leaderboard" id="leaderboard"></ol>
+      <button id="next-round" class="top-gap">{{ t('next_round_button') }}</button>
+    </div>
+    <div id="final-suspense-section" hidden>
+      <p class="suspense-text">🏆</p>
+      <p class="help">{{ t('reveal_waiting') }}</p>
+      <button id="reveal-button" class="top-gap">{{ t('reveal_button') }}</button>
+    </div>
+    <div id="podium-section" hidden></div>
+  </div>
+  <button class="danger secondary-action" id="reset">{{ t('reset_room') }}</button>
+</section>
+{% endblock %}
+{% block script %}
+<script src="{{ url_for('static', filename='js/results.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

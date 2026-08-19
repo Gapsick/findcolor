@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{% block title %}Color Hunt{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Bangers&family=Black+Han+Sans&family=Dela+Gothic+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body><main>
+  <nav class="language-switch" aria-label="Language">
+    <a class="lang-btn{{ ' active' if lang == 'ko' else '' }}" href="{{ request.path }}?lang=ko">한국어</a>
+    <a class="lang-btn{{ ' active' if lang == 'ja' else '' }}" href="{{ request.path }}?lang=ja">日本語</a>
+  </nav>
+  {% block content %}{% endblock %}
+</main>
+<div class="countdown-overlay" id="countdown-overlay" hidden>
+  <div class="countdown-number" id="countdown-number">3</div>
+</div>
+<div class="modal-overlay" id="confirm-overlay" hidden>
+  <div class="modal-card">
+    <p class="modal-message" id="confirm-message"></p>
+    <div class="modal-actions">
+      <button type="button" class="modal-btn modal-cancel" id="confirm-cancel"></button>
+      <button type="button" class="modal-btn modal-ok" id="confirm-ok"></button>
+    </div>
+  </div>
+</div>
+<script>window.I18N = {{ i18n_js|tojson }};</script>
+<script src="{{ url_for('static', filename='js/countdown.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dialog.js') }}"></script>
+{% block script %}{% endblock %}</body>
+</html>

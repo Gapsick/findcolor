@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Color Hunt {{ t('leaderboard_title') }}{% endblock %}
+{% block content %}
+<span class="round-badge">{{ t('round_label') }} {{ round }}/{{ total_rounds }}</span>
+<h1>{% if is_final %}{{ t('final_results_title') }}{% else %}{{ t('leaderboard_title') }}{% endif %}</h1>
+<p class="sub">{% if is_final %}{{ t('game_over_message') }}{% else %}{{ t('waiting_next_round') }}{% endif %}</p>
+<section class="card">
+  {% if is_final %}
+  <div id="final-suspense-section">
+    <p class="suspense-text">🏆</p>
+    <p class="help">{{ t('reveal_waiting') }}</p>
+  </div>
+  <div id="podium-section" hidden></div>
+  {% else %}
+  <ol class="leaderboard" id="leaderboard"></ol>
+  {% endif %}
+</section>
+{% endblock %}
+{% block script %}
+<script src="{{ url_for('static', filename='js/results.js') }}"></script>
+<script src="{{ url_for('static', filename='js/leaderboard.js') }}"></script>
+{% endblock %}
