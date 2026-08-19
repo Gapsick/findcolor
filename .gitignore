@@ -1,3 +1,7 @@
 __pycache__/
 *.py[cod]
 .env
+venv/
+deploy/colorhunt.env
+deploy/*.pem
+deploy/lightsail-containers.json

@@ -1,0 +1,14 @@
+{
+  "app": {
+    "image": ":colorhunt.app.1",
+    "ports": {
+      "8000": "HTTP"
+    },
+    "environment": {
+      "COLORHUNT_WARMUP": "1",
+      "COLORHUNT_PUBLIC_URL": "https://colorhunt.13z733864v0fc.ap-northeast-1.cs.amazonlightsail.com",
+      "COLORHUNT_SECRET": "change-this-to-a-long-random-string",
+      "COLORHUNT_ADMIN_PIN": "1234"
+    }
+  }
+}
