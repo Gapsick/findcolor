@@ -1,15 +1,46 @@
 # AWS 배포 가이드
 
-## 최종 배포 방식: Lightsail Container Service
+## 지금 쓰는 방식: 로컬 Docker + Cloudflare Tunnel (무료)
 
-EC2 + CloudFront로 시도했으나 이 학교 공유 계정에서 원인 불명의 VPC 네트워크 문제(인스턴스가
-어떤 포트로도 응답하지 않음, EC2 Instance Connect도 실패)를 겪었고, 대안으로 시도한 App Runner는
-이 계정에서 신규 서비스 생성이 막혀 있었다 ("App Runner는 더 이상 신규 고객에게 공개되지 않습니다").
-최종적으로 **AWS Lightsail Container Service**로 배포 완료 — 별도 VPC/네트워크 설정이 필요 없고
-자동으로 HTTPS 공개 주소를 준다.
+처음엔 AWS Lightsail Container Service(월 $40, 파워 medium)로 상시 배포했었는데,
+발표·데모 때만 잠깐 공개 주소가 있으면 되는 용도라 **비용이 계속 나가는 게 낭비**라서
+Lightsail 서비스는 삭제했다. 지금은 발표하는 사람 컴퓨터에서 Docker로 앱을 띄우고
+**Cloudflare Tunnel**(회원가입 불필요, 완전 무료)로 그 순간만 공개 HTTPS 주소를 연다.
+컴퓨터를 끄면 주소도 같이 사라지고, 평소엔 돈이 전혀 안 든다.
 
-- **서비스 URL**: `https://colorhunt.13z733864v0fc.ap-northeast-1.cs.amazonlightsail.com/`
-- **방장 페이지**: 위 주소 + `/host` (PIN: 배포 시 설정한 값, 기본 `1234`)
+### 발표/데모 당일 켜는 법
+
+```powershell
+cd "findcolor"
+docker build -t colorhunt:latest .          # 코드가 바뀐 경우만, 이미 빌드돼 있으면 생략
+docker run -d --name colorhunt-live -p 8000:8000 -e COLORHUNT_WARMUP=1 colorhunt:latest
+
+& "C:\Program Files (x86)\cloudflared\cloudflared.exe" tunnel --url http://localhost:8000
+```
+
+터널을 실행하면 콘솔에 `https://<랜덤단어들>.trycloudflare.com` 형태의 주소가 뜬다.
+**이 주소는 매번 새로 실행할 때마다 랜덤하게 바뀐다** — 발표 직전에 실행해서 그 자리에서
+QR/링크를 공유해야 한다.
+
+- 참가자 화면: 위 주소 그대로
+- 방장 화면: 위 주소 + `/host` (PIN 기본 `1234`)
+
+### 끝난 뒤 정리
+
+```powershell
+docker rm -f colorhunt-live
+```
+(cloudflared는 터미널 창을 닫거나 Ctrl+C로 종료하면 터널도 같이 끊긴다.)
+
+---
+
+## (참고, 지금은 미사용) AWS Lightsail Container Service로 상시 배포했던 기록
+
+별도 VPC/네트워크 설정 없이 자동으로 HTTPS 공개 주소를 주는 관리형 서비스라 한동안 이걸로
+상시 배포했었다. 다만 **파워 medium 기준 월 $40 고정 요금**(트래픽 없어도 떠 있기만 하면 과금)이라,
+상시 운영이 필요 없어진 뒤 서비스를 삭제했다. 나중에 다시 상시 배포가 필요해지면 아래 절차를
+그대로 따라 하면 된다 (`aws lightsail create-container-service`부터 다시 시작).
+
 - 리전: `ap-northeast-1` (도쿄)
 - 서비스 이름: `colorhunt`, 파워: `medium`, 스케일: 1
 - 이미지 소스: `Dockerfile` (repo 루트) — CPU 전용 torch 사용 (`--index-url https://download.pytorch.org/whl/cpu`)
