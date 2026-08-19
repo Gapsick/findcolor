@@ -2,7 +2,7 @@
 {% block title %}Color Hunt {{ t('game_start') }}{% endblock %}
 {% block content %}
 <span class="round-badge">{{ t('round_label') }} {{ round }}/{{ total_rounds }}</span>
-<h1>{{ t('game_start') }}</h1><p class="sub">{{ t('remaining_time') }} <strong id="timer">{{ duration }}</strong>{{ t('seconds') }}</p>
+<h1 class="h1-tighter">{{ t('game_start') }}</h1><p class="sub">{{ t('remaining_time') }} <strong id="timer">{{ duration }}</strong>{{ t('seconds') }}</p>
 <section class="card">
   <div class="target" style="background:{{ target }}"></div>
   <p class="target-code">{{ t('target_color') }} {{ target_name }} · {{ target }}</p>

@@ -187,6 +187,7 @@ class GameRoom:
         with self._lock:
             self.status = status
             if status == "playing":
+                self.round = self.round or 1
                 self.target_name, self.target = self._next_color()
                 self.started_at = time.time()
             elif status == "round_result":

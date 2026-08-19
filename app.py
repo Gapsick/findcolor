@@ -2,7 +2,10 @@ import os
 import threading
 from pathlib import Path
 
+from dotenv import load_dotenv
 from flask import Flask
+
+load_dotenv()
 from backend.routes.admin import admin_bp
 from backend.routes.api import api_bp
 from backend.routes.player import player_bp

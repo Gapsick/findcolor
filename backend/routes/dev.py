@@ -16,6 +16,11 @@ def dev_index():
     return render_template("dev.html")
 
 
+@dev_bp.get("/mobile")
+def dev_mobile():
+    return render_template("dev_mobile.html")
+
+
 def _populate(count=PLAYER_COUNT, with_scores=False, submission_mix=False):
     """방을 초기화하고 나(me) + 가짜 참가자 (count-1)명을 채운다."""
     room.reset()

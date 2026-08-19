@@ -1,0 +1,15 @@
+[Unit]
+Description=Color Hunt game server
+After=network.target
+
+[Service]
+# 실제 클론한 경로로 바꿔주세요 (보통 /home/ubuntu/colorhunt)
+WorkingDirectory=/home/ubuntu/colorhunt
+ExecStart=/home/ubuntu/colorhunt/.venv/bin/python /home/ubuntu/colorhunt/app.py
+Restart=always
+RestartSec=3
+User=ubuntu
+# COLORHUNT_DEV은 절대 여기 넣지 마세요 (PIN 없이 방장 권한 뚫리는 개발용 뒷문)
+
+[Install]
+WantedBy=multi-user.target
