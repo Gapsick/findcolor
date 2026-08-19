@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Color Hunt {{ t('host_login') }}{% endblock %}
 {% block content %}
-<div class="host-label">HOST</div>
-<h1>{{ t('host_login') }}</h1><p class="sub">{{ t('host_login_subtitle') }}</p>
+<h1 class="h1-tight">{{ t('host_login') }}</h1><p class="sub">{{ t('host_login_subtitle') }}</p>
 <section class="card"><form method="post">
   <label class="field-label" for="pin">{{ t('host_pin') }}</label>
   <input id="pin" name="pin" type="password" inputmode="numeric" placeholder="{{ t('pin_placeholder') }}" required autofocus>

@@ -2,7 +2,10 @@ import os
 import threading
 from pathlib import Path
 
+from dotenv import load_dotenv
 from flask import Flask
+
+load_dotenv()
 from backend.routes.admin import admin_bp
 from backend.routes.api import api_bp
 from backend.routes.player import player_bp
@@ -27,6 +30,10 @@ def create_app(test_config=None):
     app.register_blueprint(player_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(api_bp)
+    if os.environ.get("COLORHUNT_DEV") == "1":
+        from backend.routes.dev import dev_bp
+
+        app.register_blueprint(dev_bp)
 
     @app.context_processor
     def inject_i18n():

@@ -182,6 +182,18 @@ class GameRoom:
                 "duration": self.duration,
             }
 
+    def dev_force_status(self, status, final=False, revealed=False):
+        """개발용: 실제 흐름 없이 원하는 화면 상태로 강제 이동한다. 실서비스 로직에서는 쓰지 않는다."""
+        with self._lock:
+            self.status = status
+            if status == "playing":
+                self.round = self.round or 1
+                self.target_name, self.target = self._next_color()
+                self.started_at = time.time()
+            elif status == "round_result":
+                self.round = self.total_rounds if final else 1
+                self.results_revealed = revealed
+
 def color_hex(rgb):
     return "#{:02X}{:02X}{:02X}".format(*rgb)
 

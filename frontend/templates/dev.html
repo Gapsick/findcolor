@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Color Hunt DEV{% endblock %}
+{% block content %}
+<h1>🛠 개발용 페이지</h1>
+<p class="sub">버튼 누르면 해당 상태로 바로 이동합니다 (실제 게임 상태는 초기화됨)</p>
+<a class="photo-button" href="{{ url_for('dev.dev_mobile') }}">📱 아이폰 프레임으로 미리보기</a>
+
+<section class="card">
+  <div class="section-title">참가자 화면</div>
+  <a class="photo-button" href="{{ url_for('dev.as_join') }}">메인 (입장)</a>
+  <a class="photo-button" href="{{ url_for('dev.as_waiting') }}">대기방</a>
+  <a class="photo-button" href="{{ url_for('dev.as_play') }}">게임 화면</a>
+  <a class="photo-button" href="{{ url_for('dev.as_leaderboard') }}">결과 (라운드)</a>
+  <a class="photo-button" href="{{ url_for('dev.as_leaderboard_final_waiting') }}">결과 (최종 · 발표 전)</a>
+  <a class="photo-button" href="{{ url_for('dev.as_leaderboard_final_revealed') }}">결과 (최종 · 발표 후)</a>
+</section>
+
+<section class="card">
+  <div class="section-title">방장 화면</div>
+  <a class="photo-button" href="{{ url_for('dev.as_admin_login') }}">로그인 화면</a>
+  <a class="photo-button" href="{{ url_for('dev.as_admin_waiting') }}">대기 뷰</a>
+  <a class="photo-button" href="{{ url_for('dev.as_admin_playing') }}">진행 뷰</a>
+  <a class="photo-button" href="{{ url_for('dev.as_admin_result') }}">결과 뷰 (라운드)</a>
+  <a class="photo-button" href="{{ url_for('dev.as_admin_result_final') }}">결과 뷰 (최종)</a>
+</section>
+{% endblock %}

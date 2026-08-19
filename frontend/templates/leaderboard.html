@@ -2,7 +2,7 @@
 {% block title %}Color Hunt {{ t('leaderboard_title') }}{% endblock %}
 {% block content %}
 <span class="round-badge">{{ t('round_label') }} {{ round }}/{{ total_rounds }}</span>
-<h1>{% if is_final %}{{ t('final_results_title') }}{% else %}{{ t('leaderboard_title') }}{% endif %}</h1>
+<h1 class="h1-tight">{% if is_final %}{{ t('final_results_title') }}{% else %}{{ t('leaderboard_title') }}{% endif %}</h1>
 <p class="sub">{% if is_final %}{{ t('game_over_message') }}{% else %}{{ t('waiting_next_round') }}{% endif %}</p>
 <section class="card">
   {% if is_final %}
