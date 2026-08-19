@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, session
 from backend.game_state import room
 from backend.image_analysis import analyze_photo
-from backend.i18n import translate, translate_color, translate_error
+from backend.i18n import translate, translate_error
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 
@@ -25,8 +25,6 @@ def state():
     if not admin_request and not room.has_player(player_id):
         return jsonify(error=translate("player_missing")), 401
     snapshot = room.snapshot(player_id)
-    if snapshot["target_name"]:
-        snapshot["target_name"] = translate_color(snapshot["target_name"])
     return jsonify(snapshot)
 
 @api_bp.post("/submit")
@@ -69,6 +67,16 @@ def start():
         return jsonify(error=translate("admin_required")), 403
     try:
         room.start()
+    except ValueError as exc:
+        return jsonify(error=translate_error(exc)), 409
+    return jsonify(ok=True)
+
+@api_bp.post("/end_round")
+def end_round():
+    if not session.get("is_admin"):
+        return jsonify(error=translate("admin_required")), 403
+    try:
+        room.end_round_early()
     except ValueError as exc:
         return jsonify(error=translate_error(exc)), 409
     return jsonify(ok=True)

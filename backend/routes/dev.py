@@ -21,7 +21,7 @@ def dev_mobile():
     return render_template("dev_mobile.html")
 
 
-def _populate(count=PLAYER_COUNT, with_scores=False, submission_mix=False):
+def _populate(count=PLAYER_COUNT, with_scores=False, submission_mix=False, all_completed=False):
     """방을 초기화하고 나(me) + 가짜 참가자 (count-1)명을 채운다."""
     room.reset()
     session.pop("player_id", None)
@@ -41,6 +41,11 @@ def _populate(count=PLAYER_COUNT, with_scores=False, submission_mix=False):
             player["submission_status"] = status
             if status == "completed":
                 player["score"] = {"final_score": round(random.uniform(20, 98), 1)}
+
+    if all_completed:
+        for player in room.players.values():
+            player["submission_status"] = "completed"
+            player["score"] = {"final_score": round(random.uniform(20, 98), 1)}
 
     return my_id
 
@@ -109,6 +114,14 @@ def as_admin_waiting():
 @dev_bp.get("/admin-playing")
 def as_admin_playing():
     _populate(submission_mix=True)
+    room.dev_force_status("playing")
+    session["is_admin"] = True
+    return redirect(url_for("admin.admin_page"))
+
+
+@dev_bp.get("/admin-playing-all-done")
+def as_admin_playing_all_done():
+    _populate(all_completed=True)
     room.dev_force_status("playing")
     session["is_admin"] = True
     return redirect(url_for("admin.admin_page"))

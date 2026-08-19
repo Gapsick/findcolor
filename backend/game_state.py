@@ -3,12 +3,6 @@ import threading
 import time
 import uuid
 
-TEST_TARGET_COLORS = {
-    "빨강": (216, 58, 58),    # #D83A3A
-    "초록": (58, 155, 85),   # #3A9B55
-    "갈색": (139, 90, 60),   # #8B5A3C
-}
-
 TOTAL_ROUNDS = 3
 
 AVATARS = ["🐶", "🐱", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮", "🐷"]
@@ -20,24 +14,20 @@ class GameRoom:
         self.status = "waiting"  # waiting | playing | round_result
         self.players = {}
         self.target = None
-        self.target_name = None
         self.started_at = None
         self.duration = 60
         self.round = 0
         self.total_rounds = TOTAL_ROUNDS
         self.results_revealed = False
-        self._color_queue = []
 
     def reset(self):
         with self._lock:
             self.status = "waiting"
             self.players = {}
             self.target = None
-            self.target_name = None
             self.started_at = None
             self.round = 0
             self.results_revealed = False
-            self._color_queue = []
 
     def add_player(self, nickname, avatar=None):
         nickname = nickname.strip()
@@ -61,15 +51,11 @@ class GameRoom:
             return player_id
 
     def _next_color(self):
-        if not self._color_queue:
-            pool = list(TEST_TARGET_COLORS.items())
-            random.shuffle(pool)
-            self._color_queue = pool
-        return self._color_queue.pop(0)
+        return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
     def _begin_round(self):
         # 호출 전 _lock을 이미 잡고 있어야 한다.
-        self.target_name, self.target = self._next_color()
+        self.target = self._next_color()
         self.started_at = time.time()
         self.status = "playing"
         self.results_revealed = False
@@ -100,6 +86,13 @@ class GameRoom:
             if self.status != "round_result" or self.round < self.total_rounds:
                 raise ValueError("최종 라운드 결과 화면에서만 결과를 발표할 수 있습니다.")
             self.results_revealed = True
+
+    def end_round_early(self):
+        """방장이 타이머를 기다리지 않고 지금 바로 결과화면으로 넘긴다."""
+        with self._lock:
+            if self.status != "playing":
+                raise ValueError("게임이 진행 중일 때만 라운드를 종료할 수 있습니다.")
+            self.status = "round_result"
 
     def begin_submission(self, player_id):
         with self._lock:
@@ -184,7 +177,6 @@ class GameRoom:
                     player["submission_status"] == "processing" for player in self.players.values()
                 ),
                 "target": color_hex(self.target) if self.target else None,
-                "target_name": self.target_name,
                 "remaining": remaining,
                 "duration": self.duration,
             }
@@ -195,7 +187,7 @@ class GameRoom:
             self.status = status
             if status == "playing":
                 self.round = self.round or 1
-                self.target_name, self.target = self._next_color()
+                self.target = self._next_color()
                 self.started_at = time.time()
             elif status == "round_result":
                 self.round = self.total_rounds if final else 1

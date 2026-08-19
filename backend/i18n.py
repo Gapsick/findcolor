@@ -18,6 +18,7 @@ TRANSLATIONS = {
         "submission_status": "제출 현황",
         "submission_closed": "제출 시간이 종료되었습니다.",
         "final_submission_status": "최종 제출 현황",
+        "end_round_button": "지금 결과 보기",
         "round_label": "라운드",
         "leaderboard_title": "라운드 결과",
         "final_results_title": "최종 결과",
@@ -67,7 +68,6 @@ TRANSLATIONS = {
         "final_score": "최종 점수",
         "submission_complete": "제출이 완료되었어요",
         "waiting_others": "다른 참가자들의 결과를 기다리고 있습니다.",
-        "color_red": "빨강", "color_green": "초록", "color_brown": "갈색",
         "pin_invalid": "PIN이 올바르지 않습니다.",
         "admin_required": "관리자 인증이 필요합니다.",
         "player_missing": "참가자 정보가 없습니다.",
@@ -86,6 +86,7 @@ TRANSLATIONS = {
         "not_round_result": "라운드 결과 화면에서만 다음 라운드를 시작할 수 있습니다.",
         "all_rounds_done": "모든 라운드가 종료되었습니다.",
         "reveal_not_ready": "최종 라운드 결과 화면에서만 결과를 발표할 수 있습니다.",
+        "not_playing": "게임이 진행 중일 때만 라운드를 종료할 수 있습니다.",
     },
     "ja": {
         "language": "日本語",
@@ -101,6 +102,7 @@ TRANSLATIONS = {
         "submission_status": "提出状況",
         "submission_closed": "提出時間が終了しました。",
         "final_submission_status": "最終提出状況",
+        "end_round_button": "今すぐ結果を見る",
         "round_label": "ラウンド",
         "leaderboard_title": "ラウンド結果",
         "final_results_title": "最終結果",
@@ -150,7 +152,6 @@ TRANSLATIONS = {
         "final_score": "最終スコア",
         "submission_complete": "提出が完了しました",
         "waiting_others": "ほかの参加者の結果を待っています。",
-        "color_red": "赤", "color_green": "緑", "color_brown": "茶色",
         "pin_invalid": "PINが正しくありません。",
         "admin_required": "管理者認証が必要です。",
         "player_missing": "参加者情報がありません。",
@@ -169,6 +170,7 @@ TRANSLATIONS = {
         "not_round_result": "ラウンド結果画面でのみ次のラウンドを開始できます。",
         "all_rounds_done": "すべてのラウンドが終了しました。",
         "reveal_not_ready": "最終ラウンドの結果画面でのみ結果を発表できます。",
+        "not_playing": "ゲーム進行中のみラウンドを終了できます。",
     },
 }
 
@@ -226,11 +228,6 @@ def translate(key):
     return TRANSLATIONS[language].get(key, TRANSLATIONS["ko"].get(key, key))
 
 
-def translate_color(name):
-    keys = {"빨강": "color_red", "초록": "color_green", "갈색": "color_brown"}
-    return translate(keys.get(name, name))
-
-
 ERROR_KEYS = {
     "PIN이 올바르지 않습니다.": "pin_invalid",
     "관리자 인증이 필요합니다.": "admin_required",
@@ -249,6 +246,7 @@ ERROR_KEYS = {
     "라운드 결과 화면에서만 다음 라운드를 시작할 수 있습니다.": "not_round_result",
     "모든 라운드가 종료되었습니다.": "all_rounds_done",
     "최종 라운드 결과 화면에서만 결과를 발표할 수 있습니다.": "reveal_not_ready",
+    "게임이 진행 중일 때만 라운드를 종료할 수 있습니다.": "not_playing",
 }
 
 

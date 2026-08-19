@@ -92,9 +92,11 @@ async function refresh() {
     if (playing) {
       document.querySelector("#playing-round-badge").textContent = roundBadge(data);
       document.querySelector("#target").style.background = data.target;
-      document.querySelector("#target-code").textContent = `${data.target_name} · ${data.target}`;
+      document.querySelector("#target-code").textContent = data.target;
       document.querySelector("#timer").textContent = data.remaining;
       renderSubmissionProgress(data, "#progress-count", "#progress-players");
+      const allSubmitted = data.players.length > 0 && data.submitted_count === data.players.length;
+      document.querySelector("#end-round-now").hidden = !allSubmitted;
       return;
     }
     document.querySelector("#count").textContent = tr("players", { count: data.players.length });
@@ -112,6 +114,10 @@ async function refresh() {
 
 document.querySelector("#start").addEventListener("click", async () => {
   if (await showConfirm(tr("confirm_start"))) await fetch("/api/start", { method: "POST" });
+  refresh();
+});
+document.querySelector("#end-round-now").addEventListener("click", async () => {
+  await fetch("/api/end_round", { method: "POST" });
   refresh();
 });
 document.querySelector("#next-round").addEventListener("click", async () => {

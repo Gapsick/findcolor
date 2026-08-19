@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, session, url_for
 from backend.game_state import AVATARS, room
-from backend.i18n import translate, translate_color
+from backend.i18n import translate
 
 player_bp = Blueprint("player", __name__)
 
@@ -52,7 +52,6 @@ def play_page():
     return render_template(
         "play.html",
         target=state["target"],
-        target_name=translate_color(state["target_name"]),
         duration=state["remaining"],
         round=state["round"],
         total_rounds=state["total_rounds"],
