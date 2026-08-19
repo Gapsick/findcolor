@@ -45,6 +45,13 @@ def _populate(count=PLAYER_COUNT, with_scores=False, submission_mix=False):
     return my_id
 
 
+@dev_bp.get("/intro")
+def as_intro():
+    room.reset()
+    session.pop("player_id", None)
+    return redirect(url_for("player.intro_page"))
+
+
 @dev_bp.get("/join")
 def as_join():
     room.reset()
