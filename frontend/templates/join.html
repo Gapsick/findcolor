@@ -3,6 +3,12 @@
 {% block content %}
 <h1>Color Hunt</h1><p class="sub">{{ t('join_subtitle') }}</p>
 <section class="card"><form id="join-form">
+  <span class="section-title">{{ t('choose_avatar') }}</span>
+  <div class="avatar-grid" id="avatar-grid">
+    {% for avatar in avatars %}
+    <button type="button" class="avatar-option{{ ' selected' if loop.first else '' }}" data-avatar="{{ avatar }}">{{ avatar }}</button>
+    {% endfor %}
+  </div>
   <input id="nickname" maxlength="16" autocomplete="nickname" placeholder="{{ t('nickname_placeholder') }}" autofocus>
   <button type="submit">{{ t('enter_lobby') }}</button><p class="error" id="error"></p>
 </form></section>

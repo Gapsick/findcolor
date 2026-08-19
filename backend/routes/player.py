@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, render_template, session, url_for
-from backend.game_state import room
+from backend.game_state import AVATARS, room
 from backend.i18n import translate, translate_color
 
 player_bp = Blueprint("player", __name__)
@@ -10,6 +10,15 @@ _ENDPOINT_BY_STATUS = {
 }
 
 @player_bp.get("/")
+def intro_page():
+    player_id = session.get("player_id")
+    if room.has_player(player_id):
+        state = room.snapshot(player_id)
+        endpoint = _ENDPOINT_BY_STATUS.get(state["status"], "player.waiting_page")
+        return redirect(url_for(endpoint))
+    return render_template("intro.html")
+
+@player_bp.get("/join")
 def join_page():
     player_id = session.get("player_id")
     state = room.snapshot(player_id)
@@ -18,7 +27,7 @@ def join_page():
         return redirect(url_for(endpoint))
     if state["status"] != "waiting":
         return render_template("message.html", message=translate("game_already_started")), 403
-    return render_template("join.html")
+    return render_template("join.html", avatars=AVATARS)
 
 @player_bp.get("/waiting")
 def waiting_page():

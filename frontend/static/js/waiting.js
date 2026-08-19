@@ -16,7 +16,7 @@ async function refresh() {
   busy = true;
   try {
     const response = await fetch("/api/state");
-    if (response.status === 401) { location.href = "/"; return; }
+    if (response.status === 401) { location.href = "/join"; return; }
     const data = await response.json();
     if (data.status === "playing") {
       navigating = true;
@@ -26,7 +26,7 @@ async function refresh() {
     }
     document.querySelector("#count").textContent = tr("current_players", { count: data.players.length });
     document.querySelector("#players").innerHTML = data.players.map((player) =>
-      `<li class="player"><strong>${escapeHtml(player.nickname)}${player.me ? ` (${tr("me")})` : ""}</strong><span class="badge ready">${tr("joined")}</span></li>`
+      `<li class="player"><strong><span class="mini-avatar">${player.avatar}</span>${escapeHtml(player.nickname)}${player.me ? ` (${tr("me")})` : ""}</strong><span class="badge ready">${tr("joined")}</span></li>`
     ).join("");
   } finally {
     busy = false;

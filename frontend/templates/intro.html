@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Color Hunt{% endblock %}
+{% block content %}
+<h1>Color Hunt</h1>
+<p class="sub">{{ t('intro_subtitle') }}</p>
+<span class="section-title">{{ t('intro_how_to_play') }}</span>
+<div class="step-slider-wrap">
+  <button type="button" class="slider-arrow slider-arrow-prev" id="slider-prev" aria-label="prev">‹</button>
+  <div class="step-slider" id="step-slider">
+    <div class="card step-card">
+      <div class="step-header"><span class="step-number">1</span><p class="step-text">{{ t('intro_step1') }}</p></div>
+      <img class="step-image" src="{{ url_for('static', filename='images/01_color_display.png') }}" alt="">
+    </div>
+    <div class="card step-card">
+      <div class="step-header"><span class="step-number">2</span><p class="step-text">{{ t('intro_step2') }}</p></div>
+      <img class="step-image" src="{{ url_for('static', filename='images/02_take_pic.png') }}" alt="">
+    </div>
+    <div class="card step-card">
+      <div class="step-header"><span class="step-number">3</span><p class="step-text">{{ t('intro_step3') }}</p></div>
+      <img class="step-image" src="{{ url_for('static', filename='images/03_score.png') }}" alt="">
+    </div>
+    <div class="card step-card">
+      <div class="step-header"><span class="step-number">4</span><p class="step-text">{{ t('intro_step4') }}</p></div>
+      <img class="step-image" src="{{ url_for('static', filename='images/04_kekka.png') }}" alt="">
+    </div>
+  </div>
+  <button type="button" class="slider-arrow slider-arrow-next" id="slider-next" aria-label="next">›</button>
+</div>
+<div class="slider-dots" id="slider-dots">
+  <button type="button" class="dot active" data-index="0" aria-label="1"></button>
+  <button type="button" class="dot" data-index="1" aria-label="2"></button>
+  <button type="button" class="dot" data-index="2" aria-label="3"></button>
+  <button type="button" class="dot" data-index="3" aria-label="4"></button>
+</div>
+<a class="photo-button top-gap" href="{{ url_for('player.join_page') }}">{{ t('intro_cta') }}</a>
+{% endblock %}
+{% block script %}<script src="{{ url_for('static', filename='js/intro.js') }}"></script>{% endblock %}

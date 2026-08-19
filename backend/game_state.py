@@ -11,6 +11,8 @@ TEST_TARGET_COLORS = {
 
 TOTAL_ROUNDS = 3
 
+AVATARS = ["🐶", "🐱", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮", "🐷"]
+
 class GameRoom:
     """한 개 방의 참가자와 게임 상태를 메모리에서 관리합니다."""
     def __init__(self):
@@ -37,10 +39,12 @@ class GameRoom:
             self.results_revealed = False
             self._color_queue = []
 
-    def add_player(self, nickname):
+    def add_player(self, nickname, avatar=None):
         nickname = nickname.strip()
         if not 1 <= len(nickname) <= 16:
             raise ValueError("닉네임은 1~16자로 입력해주세요.")
+        if avatar not in AVATARS:
+            avatar = random.choice(AVATARS)
         with self._lock:
             if self.status != "waiting":
                 raise ValueError("게임이 이미 시작되었습니다.")
@@ -49,6 +53,7 @@ class GameRoom:
             player_id = uuid.uuid4().hex
             self.players[player_id] = {
                 "nickname": nickname,
+                "avatar": avatar,
                 "submission_status": "waiting",
                 "score": None,
                 "total_score": 0.0,
@@ -140,6 +145,7 @@ class GameRoom:
             players = [
                 {
                     "nickname": player["nickname"],
+                    "avatar": player["avatar"],
                     "submission_status": player["submission_status"],
                     "submitted": player["submission_status"] == "completed",
                     "score": player["score"],
@@ -152,6 +158,7 @@ class GameRoom:
                 (
                     {
                         "nickname": player["nickname"],
+                        "avatar": player["avatar"],
                         "total_score": player["total_score"],
                         "me": pid == player_id,
                     }

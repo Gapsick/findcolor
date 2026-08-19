@@ -21,12 +21,12 @@ function renderPodium(list, containerSelector) {
     <div class="podium-slot podium-${i + 1}${entry.me ? " me" : ""}">
       <div class="podium-medal">${medals[i]}</div>
       <div class="podium-bar">
-        <div class="podium-name">${resultsEscapeHtml(entry.nickname)}${entry.me ? ` (${resultsTr("me")})` : ""}</div>
+        <div class="podium-name"><span class="mini-avatar">${entry.avatar}</span>${resultsEscapeHtml(entry.nickname)}${entry.me ? ` (${resultsTr("me")})` : ""}</div>
         <div class="podium-score">${entry.total_score}${resultsTr("points")}</div>
       </div>
     </div>`).join("")}</div>`;
   const restHtml = rest.length ? `<ol class="leaderboard rest-list">${rest.map((entry, idx) => `
-    <li class="rank-row${entry.me ? " me" : ""}"><span class="rank-medal">${idx + 4}${resultsTr("rank_suffix")}</span><span class="rank-name">${resultsEscapeHtml(entry.nickname)}${entry.me ? ` (${resultsTr("me")})` : ""}</span><span class="rank-score">${entry.total_score}${resultsTr("points")}</span></li>`).join("")}</ol>` : "";
+    <li class="rank-row${entry.me ? " me" : ""}"><span class="rank-medal">${idx + 4}${resultsTr("rank_suffix")}</span><span class="rank-name"><span class="mini-avatar">${entry.avatar}</span>${resultsEscapeHtml(entry.nickname)}${entry.me ? ` (${resultsTr("me")})` : ""}</span><span class="rank-score">${entry.total_score}${resultsTr("points")}</span></li>`).join("")}</ol>` : "";
   container.innerHTML = podiumHtml + restHtml;
 }
 

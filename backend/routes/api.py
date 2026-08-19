@@ -7,9 +7,11 @@ api_bp = Blueprint("api", __name__, url_prefix="/api")
 
 @api_bp.post("/join")
 def join():
-    nickname = (request.get_json(silent=True) or {}).get("nickname", "")
+    payload = request.get_json(silent=True) or {}
+    nickname = payload.get("nickname", "")
+    avatar = payload.get("avatar", "")
     try:
-        session["player_id"] = room.add_player(nickname)
+        session["player_id"] = room.add_player(nickname, avatar)
     except ValueError as exc:
         return jsonify(error=translate_error(exc)), 409
     return jsonify(ok=True)

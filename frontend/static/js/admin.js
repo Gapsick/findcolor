@@ -23,7 +23,7 @@ function renderSubmissionProgress(data, countSelector, listSelector) {
   document.querySelector(countSelector).textContent =
     tr("progress", { done: data.submitted_count, processing: data.processing_count, total: data.players.length });
   document.querySelector(listSelector).innerHTML = data.players.map((player) =>
-    `<li class="player"><strong>${escapeHtml(player.nickname)}</strong>${submissionLabel(player)}</li>`
+    `<li class="player"><strong><span class="mini-avatar">${player.avatar}</span>${escapeHtml(player.nickname)}</strong>${submissionLabel(player)}</li>`
   ).join("");
 }
 
@@ -35,7 +35,7 @@ function renderLeaderboard(list) {
   document.querySelector("#leaderboard").innerHTML = list.map((entry, index) => {
     const rank = index + 1;
     const rankClass = rank <= 3 ? ` rank-${rank}` : "";
-    return `<li class="rank-row${rankClass}"><span class="rank-medal">${medal(rank)}</span><span class="rank-name">${escapeHtml(entry.nickname)}</span><span class="rank-score">${entry.total_score}${tr("points")}</span></li>`;
+    return `<li class="rank-row${rankClass}"><span class="rank-medal">${medal(rank)}</span><span class="rank-name"><span class="mini-avatar">${entry.avatar}</span>${escapeHtml(entry.nickname)}</span><span class="rank-score">${entry.total_score}${tr("points")}</span></li>`;
   }).join("");
 }
 
@@ -99,7 +99,7 @@ async function refresh() {
     }
     document.querySelector("#count").textContent = tr("players", { count: data.players.length });
     document.querySelector("#players").innerHTML = data.players.map((player) =>
-      `<li class="player"><strong>${escapeHtml(player.nickname)}</strong><span class="badge ready">${tr("joined")}</span></li>`
+      `<li class="player"><strong><span class="mini-avatar">${player.avatar}</span>${escapeHtml(player.nickname)}</strong><span class="badge ready">${tr("joined")}</span></li>`
     ).join("");
     const canStart = data.players.length > 0;
     const button = document.querySelector("#start");
