@@ -15,7 +15,7 @@ class GameRoom:
         self.players = {}
         self.target = None
         self.started_at = None
-        self.duration = 60
+        self.duration = 40
         self.round = 0
         self.total_rounds = TOTAL_ROUNDS
         self.results_revealed = False
